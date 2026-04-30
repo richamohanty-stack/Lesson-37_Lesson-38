@@ -2,8 +2,6 @@ import math
 import random
 import pygame
 
-
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 500
 
@@ -21,6 +19,11 @@ COLLISION_DISTANCE = 27
 
 
 pygame.init()
+pygame.mixer.music.load('background.mp3')
+pygame.mixer.music.play(-1)
+
+bullet_sound = pygame.mixer.Sound('bullet.mp3')
+
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 background = pygame.image.load('background.png')
 
@@ -114,11 +117,13 @@ while running:
                 if bullet_state == 'ready':
                     bulletX = playerX
                     fire_bullet(bulletX, bulletY)
+                    bullet_sound.play()
         if event.type == pygame.KEYUP and event.key in [pygame.K_RIGHT]:
             playerX_change = 0
             
         playerX += playerX_change
         playerX = max(0, min(playerX, SCREEN_WIDTH - 64))
+
 
     for i in range(num_of_enemies):
         if enemyY[i]>340:
@@ -131,6 +136,7 @@ while running:
         if enemyX[i] <= 0 or enemyX[i] >= SCREEN_WIDTH - 64:
             enemyX_change[i] *= -1
             enemyY[i] += enemyY_change[i]
+
         if isCollision(enemyX[i], enemyY[i], bulletX, bulletY):
             bulletY = PLAYER_START_Y
             bullet_state = 'ready'
