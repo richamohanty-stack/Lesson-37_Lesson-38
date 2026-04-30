@@ -1,5 +1,6 @@
 import math
 import random
+from turtle import distance
 import pygame
 
 
@@ -93,7 +94,7 @@ def fire_bullet(x, y):
     screen.blit(bulletImg, (x + 16, y + 10))
 
 def isCollision(enemyX, enemyY, bulletX, bulletY):
-    distance = math.sqrt(math.pow(enemyX - bulletX)**2 + math.pow(enemyY - bulletY)**2)
+    distance = math.sqrt((enemyX - bulletX) ** 2 + (enemyY - bulletY) ** 2)
     return distance < COLLISION_DISTANCE
 
 
@@ -107,9 +108,9 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                playerX_change = -5
+                playerX_change = -10
             if event.key == pygame.K_RIGHT:
-                playerX_change = 5
+                playerX_change = 10
             if event.key == pygame.K_SPACE:
                 if bullet_state == 'ready':
                     bulletX = playerX
